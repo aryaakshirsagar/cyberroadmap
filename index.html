@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Career Mind Map</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Off-White & Deep Indigo -->
+    <!-- Application Structure Plan: A clean, non-gamified interactive flowchart. The structure is purely informational, designed for clarity and ease of navigation. A top header provides context. The main view is the flowchart, where each node represents a stage in the career path. Clicking a node opens a modal with detailed explanations, learning topics, and now, embedded interactive modules for hands-on learning. -->
+    <!-- Visualization & Content Choices: 
+        - Career Path -> Interactive Flowchart Nodes -> Goal: Organize & Inform -> Justification: The flowchart provides the clearest visual representation of the career path and its branching points.
+        - Detailed Topics -> Modal with Accordions & Interactive Modules -> Goal: Inform, Explain, Engage -> Justification: The modal presents in-depth information and now includes hands-on modules (like the chmod calculator) to transform passive reading into active learning.
+        - Progression & Branching -> CSS Connectors -> Goal: Show Relationships -> Justification: Simple, styled connectors visually link the stages, making the progression easy to follow.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* A very light, chic gray */
+            color: #212529; /* Darker text for contrast */
+            overflow-x: hidden;
+        }
+        .font-mono { font-family: 'Roboto Mono', monospace; }
+        .map-node {
+            border: 1px solid #dee2e6; /* Softer border */
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            min-height: 120px;
+        }
+        .map-node:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #4361ee; /* A chic, deep blue */
+        }
+        .connector {
+            background: linear-gradient(to right, #ced4da, #adb5bd); /* Subtle gradient for connectors */
+            position: absolute;
+            z-index: -1;
+        }
+        .modal-overlay { transition: opacity 0.3s ease-in-out; }
+        .modal-content { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; border: 1px solid #e9ecef; }
+        .accordion-header { transition: background-color 0.3s ease; border-bottom: 1px solid #e9ecef; }
+        .accordion-header:hover { background-color: #f8f9fa; }
+        .accordion-item:last-child .accordion-header { border-bottom: none; }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .accordion-content.open {
+            max-height: 2000px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .chmod-label {
+            transition: background-color 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 tracking-tight">Cybersecurity Career Path</h1>
+        <p class="text-lg text-gray-500 font-mono">[ An Interactive Guide ]</p>
+        <p class="mt-4 max-w-3xl mx-auto text-gray-600">Click on any node to explore the skills and concepts for each stage of your journey.</p>
+    </div>
+
+    <!-- Mind Map Container -->
+    <div class="w-full max-w-7xl flex-grow flex items-center justify-center">
+        <div class="relative w-full h-full p-4 lg:p-0">
+            <!-- Nodes -->
+            <div id="level-1" class="map-node absolute w-48 rounded-xl p-4 flex flex-col justify-center items-center text-center">
+                <span class="text-3xl mb-2">🧑‍💻</span><h3 class="font-semibold text-gray-800">Level 1: Recruit</h3>
+            </div>
+            <div id="level-2" class="map-node absolute w-48 rounded-xl p-4 flex flex-col justify-center items-center text-center">
+                <span class="text-3xl mb-2">🛡️</span><h3 class="font-semibold text-gray-800">Level 2: Analyst</h3>
+            </div>
+            <div id="level-3-red" class="map-node absolute w-48 rounded-xl p-4 flex flex-col justify-center items-center text-center">
+                <span class="text-3xl mb-2">🔴</span><h3 class="font-semibold text-gray-800">Red Team Path</h3><p class="text-sm text-gray-500">The Hunter</p>
+            </div>
+            <div id="level-3-blue" class="map-node absolute w-48 rounded-xl p-4 flex flex-col justify-center items-center text-center">
+                <span class="text-3xl mb-2">🔵</span><h3 class="font-semibold text-gray-800">Blue Team Path</h3><p class="text-sm text-gray-500">The Guardian</p>
+            </div>
+            <div id="level-4" class="map-node absolute w-48 rounded-xl p-4 flex flex-col justify-center items-center text-center">
+                <span class="text-3xl mb-2">🏆</span><h3 class="font-semibold text-gray-800">Level 4: Master</h3>
+            </div>
+
+            <!-- Connectors -->
+            <div class="connectors-container hidden lg:block">
+                <div class="connector h-0.5 w-[13%] left-[14%] top-1/2"></div><div class="connector h-0.5 w-[12%] left-[36%] top-1/2"></div><div class="connector h-[25%] w-0.5 left-[47.5%] top-1/4"></div><div class="connector h-0.5 w-[8%] left-[48%] top-1/4"></div><div class="connector h-[25%] w-0.5 left-[47.5%] top-1/2"></div><div class="connector h-0.5 w-[8%] left-[48%] top-3/4"></div><div class="connector h-0.5 w-[18%] left-[64%] top-1/4"></div><div class="connector h-[25%] w-0.5 left-[81.5%] top-1/4"></div><div class="connector h-0.5 w-[18%] left-[64%] top-3/4"></div><div class="connector h-[25%] w-0.5 left-[81.5%] top-1/2"></div>
+            </div>
+            <div class="connectors-container-mobile block lg:hidden">
+                 <div class="connector w-0.5 h-[20%] top-[30%] left-1/2 -translate-x-1/2"></div><div class="connector w-0.5 h-[20%] top-[50%] left-1/2 -translate-x-1/2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal-overlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 opacity-0 pointer-events-none z-50">
+        <div id="modal-content" class="modal-content w-full max-w-3xl bg-white rounded-xl shadow-2xl max-h-[90vh] flex flex-col opacity-0 transform scale-95">
+            <!-- Modal content injected here -->
+        </div>
+    </div>
+
+    <script>
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+
+        const roadmapData = {
+            "level-1": {
+                title: "Recruit", icon: "🧑‍💻", description: "Master the fundamental building blocks of all IT systems.",
+                content: [
+                    { title: "Operating Systems Proficiency", explanation: "Understand the layout of the building you're hired to protect. Mastery of Windows and Linux means you can navigate, configure, and troubleshoot the ground on which all applications run. This knowledge is fundamental because every attack and defense action ultimately happens on an OS.", details: [{ sub: "Core Concepts", items: ["Hardware Interaction (CPU, RAM, I/O)", "OS Fundamentals (Kernel vs. Shell)", "Process & Memory Management", "File Systems (NTFS, ext4)"] }, { sub: "Windows Mastery", items: ["Command Line: CMD, PowerShell Basics", "System Internals: Registry, Services", "User & Group Management", "Intro to Active Directory"] }, { sub: "Linux Mastery", items: ["Command Line: Bash Scripting Essentials", "File System Hierarchy", "Permissions: chmod, chown", "Package Management: apt, yum"], interactiveModule: 'chmod' }] },
+                    { title: "Computer Networking Fundamentals", explanation: "Networks are the highways for data and attacks. A deep understanding of networking is the single most critical skill. Without it, you'll be blind to how attackers move, how data is exfiltrated, and how to build effective defenses. Every packet tells a story; you need to learn to read it.", details: [{ sub: "Core Models", items: ["OSI Model (7 Layers)", "TCP/IP Model (4 Layers)"] }, { sub: "IP & Routing", items: ["IPv4 & IPv6 Addressing", "Subnetting & CIDR", "Routing & Switching"] }, { sub: "Key Protocols", items: ["TCP vs. UDP", "HTTP/HTTPS & DNS", "DHCP, ICMP, SMTP"] }, { sub: "Essential Tools", items: ["ping, traceroute", "ipconfig/ifconfig", "nslookup/dig"] }] },
+                    { title: "Programming & Scripting", explanation: "In modern cybersecurity, you automate or you fall behind. Scripting, especially with Python, allows you to create custom tools, automate repetitive tasks like log analysis, and parse massive amounts of data efficiently. It's the ultimate force multiplier for a security professional.", details: [{ sub: "Python for Security", items: ["Data Types & Structures", "Control Flow & Functions", "Making HTTP requests", "Intro to Scapy for packet crafting"] }, { sub: "Web Fundamentals", items: ["HTML Structure", "JavaScript for Client-Side Logic"] }] },
+                    { title: "Lab Setup", explanation: "Theory is useless without practice. A personal, isolated lab is your sandbox to safely execute attacks, test defenses, and break things without legal or ethical consequences. This hands-on experience is what separates an academic from a practitioner and builds real-world skills.", details: [{ sub: "Virtualization", items: ["Install VirtualBox/VMware", "Understand Snapshots & Network Modes"] }, { sub: "Attacker Machine", items: ["Install Kali Linux", "Explore tool categories"] }, { sub: "Target Machines", items: ["Set up Metasploitable", "Deploy OWASP WebGoat"] }] }
+                ]
+            },
+            "level-2": {
+                title: "Analyst", icon: "🛡️", description: "Learn the core principles of security. Shift your mindset from how things work to how they can be secured.",
+                content: [
+                    { title: "Security Foundations", explanation: "Learn the language and core concepts of the security profession. Understanding principles like the CIA Triad and risk management provides the mental framework for every decision you'll make. A certification like Security+ validates this foundational knowledge and is often a prerequisite for entry-level jobs.", details: [{ sub: "Core Principles", items: ["CIA Triad", "AAA Framework", "Risk Management"] }, { sub: "Key Certification", items: ["CompTIA Security+"] }] },
+                    { title: "Practical Cryptography", explanation: "Cryptography is what protects data from prying eyes. You must understand not just that we use encryption, but how it works, its limitations, and how it can be implemented correctly to ensure confidentiality and integrity.", details: [{ sub: "Encryption Types", items: ["Symmetric vs. Asymmetric", "Algorithms: AES, RSA"] }, { sub: "Hashing", items: ["SHA-256, MD5", "Use cases: Password Storage"] }, { sub: "PKI", items: ["How SSL/TLS works", "Certificates & CAs"] }] },
+                    { title: "Network Security & Monitoring", explanation: "Move from understanding networks to defending them. Learn the tools that act as gatekeepers and watchtowers. Mastering packet analysis with Wireshark is crucial for seeing raw data and uncovering hidden threats that automated systems might miss.", details: [{ sub: "Defensive Tech", items: ["Firewalls, IDS/IPS, VPNs, WAFs"] }, { sub: "Packet Analysis", items: ["Mastering Wireshark", "Following TCP Streams"] }] }
+                ]
+            },
+            "level-3-red": {
+                title: "Red Team Path", icon: "🔴", description: "Learn to think and act like an adversary to find and exploit vulnerabilities before they do.",
+                content: [
+                    { title: "Ethical Hacking Methodology", explanation: "Professional offensive security is a structured, methodical process. Learning this five-stage methodology ensures your assessments are thorough, repeatable, and professional. It provides a framework for every engagement, from initial information gathering to final reporting.", details: [{ sub: "The 5 Stages", items: ["1. Reconnaissance", "2. Scanning & Enumeration", "3. Gaining Access", "4. Maintaining Access", "5. Covering Tracks"] }] },
+                    { title: "Mastering the Toolkit", explanation: "Nmap is your map, Metasploit is your cannon, and Burp Suite is your magnifying glass for web traffic. Deep proficiency with these three tools is a baseline requirement for any offensive security role.", details: [{ sub: "Nmap", items: ["Scan Types", "NSE", "Version Detection"] }, { sub: "Metasploit", items: ["Modules", "Payloads", "Meterpreter"] }, { sub: "Burp Suite", items: ["Proxying", "Repeater, Intruder"] }] },
+                    { title: "Web Application Exploitation", explanation: "Web apps are the front door to many organizations. The OWASP Top 10 lists the most critical risks. Mastering how to find and exploit these vulnerabilities is a highly in-demand skill.", details: [{ sub: "OWASP Top 10", items: ["SQL Injection", "Cross-Site Scripting (XSS)", "Broken Authentication", "SSRF"] }] },
+                     { title: "Practice Platforms", explanation: "This is your sparring ground. Platforms like Hack The Box and TryHackMe provide legal, purpose-built environments to hone your offensive skills against realistic targets.", details: [{ sub: "Recommended Labs", items: ["Hack The Box", "TryHackMe", "VulnHub"] }] }
+                ]
+            },
+            "level-3-blue": {
+                title: "Blue Team Path", icon: "🔵", description: "Build and defend the fortress. Focus on detection, response, and hardening systems against attack.",
+                content: [
+                    { title: "Security Operations (SOC)", explanation: "The SOC is the nerve center of defense. Here, you learn to use a SIEM to aggregate logs and find the signal in the noise—to identify the faint traces of an attack amidst billions of legitimate events.", details: [{ sub: "SIEM & Log Management", items: ["Splunk or ELK Stack", "Writing Search Queries"] }, { sub: "Log Analysis", items: ["Windows Event Logs", "Linux Logs", "Firewall Logs"] }] },
+                    { title: "Incident Response (DFIR)", explanation: "When an attack succeeds, Incident Response is the process of managing the crisis. It's a structured approach to limit damage, expel the attacker, and restore operations.", details: [{ sub: "The IR Lifecycle", items: ["1. Preparation", "2. Identification", "3. Containment", "4. Eradication", "5. Recovery", "6. Lessons Learned"] }] },
+                    { title: "Endpoint Security", explanation: "Many attacks execute on endpoints (laptops, servers). EDR tools provide deep visibility into endpoint activity, allowing defenders to detect and respond to sophisticated malware and attacker techniques.", details: [{ sub: "Modern Defenses", items: ["Next-Gen Antivirus (NGAV)", "Endpoint Detection & Response (EDR)"] }] },
+                    { title: "Threat Hunting", explanation: "Threat hunting is the proactive search for adversaries who have evaded automated defenses. Instead of waiting for an alert, you form a hypothesis and then search your data to prove or disprove it.", details: [{ sub: "Proactive Defense", items: ["Hypothesis-driven hunting", "Indicators of Compromise (IOCs)", "MITRE ATT&CK Framework"] }] }
+                ]
+            },
+            "level-4": {
+                title: "Master", icon: "🏆", description: "Achieve mastery by specializing in an advanced domain and committing to lifelong learning.",
+                content: [
+                    { title: "Deep Specialization", explanation: "At this stage, 'cybersecurity' becomes too broad. True masters specialize. Whether it's securing the cloud, reverse-engineering malware, or embedding security into development, specialization builds deep, world-class expertise.", details: [{ sub: "Choose Your Domain", items: ["Cloud Security", "Malware Analysis", "DevSecOps", "Digital Forensics", "GRC"] }] },
+                    { title: "Elite Certifications", explanation: "Advanced certifications are less about getting a job and more about proving a high level of practical skill. The OSCP, for example, is a grueling 24-hour hands-on exam that is highly respected in the offensive security community.", details: [{ sub: "Offensive Path", items: ["OSCP"] }, { sub: "Defensive Path", items: ["GCIH", "GCFA"] }, { sub: "Strategic Path", items: ["CISSP"] }] },
+                    { title: "Community & Continuous Learning", explanation: "The threat landscape changes daily; what works today may be obsolete tomorrow. Mastery is not a destination, but a commitment to continuous learning and community engagement.", details: [{ sub: "Stay Current", items: ["Security News", "Podcasts"] }, { sub: "Contribute", items: ["Blogs", "Open-source tools", "Conferences"] }] }
+                ]
+            }
+        };
+
+        function createAccordionHTML(content) {
+            return content.map(item => {
+                let detailsHTML = item.details.map(detail => {
+                    let moduleHTML = '';
+                    if (detail.interactiveModule === 'chmod') {
+                        moduleHTML = `
+                            <div id="chmod-calculator" class="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                                <h5 class="font-semibold text-gray-700 mb-3 text-center">Interactive chmod Calculator</h5>
+                                <div class="grid grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <p class="font-bold mb-2">Owner</p>
+                                        <div class="space-y-2">
+                                            <label class="chmod-label block"><input type="checkbox" data-group="owner" data-value="4" class="mr-2">Read (r)</label>
+                                            <label class="chmod-label block"><input type="checkbox" data-group="owner" data-value="2" class="mr-2">Write (w)</label>
+                                            <label class="chmod-label block"><input type="checkbox" data-group="owner" data-value="1" class="mr-2">Execute (x)</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold mb-2">Group</p>
+                                        <div class="space-y-2">
+                                            <label class="chmod-label block"><input type="checkbox" data-group="group" data-value="4" class="mr-2">Read (r)</label>
+                                            <label class="chmod-label block"><input type="checkbox" data-group="group" data-value="2" class="mr-2">Write (w)</label>
+                                            <label class="chmod-label block"><input type="checkbox" data-group="group" data-value="1" class="mr-2">Execute (x)</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold mb-2">Other</p>
+                                        <div class="space-y-2">
+                                            <label class="chmod-label block"><input type="checkbox" data-group="other" data-value="4" class="mr-2">Read (r)</label>
+                                            <label class="chmod-label block"><input type="checkbox" data-group="other" data-value="2" class="mr-2">Write (w)</label>
+                                            <label class="chmod-label block"><input type="checkbox" data-group="other" data-value="1" class="mr-2">Execute (x)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-200 text-center">
+                                    <p class="font-bold">Resulting Command:</p>
+                                    <code id="chmod-output" class="text-lg font-mono bg-gray-200 text-blue-700 px-3 py-1 rounded">chmod 000</code>
+                                    <p id="symbolic-output" class="text-lg font-mono mt-2">--- --- ---</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    return `
+                        <div class="py-2">
+                            <p class="font-mono text-blue-600 text-sm mb-2 font-semibold">[ ${detail.sub} ]</p>
+                            <ul class="list-disc list-inside space-y-1 text-gray-500 pl-2">
+                                ${detail.items.map(li => `<li>${li}</li>`).join('')}
+                            </ul>
+                            ${moduleHTML}
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="accordion-item">
+                        <div class="accordion-header cursor-pointer p-5 flex justify-between items-center">
+                            <h4 class="font-semibold text-gray-700">${item.title}</h4>
+                            <span class="text-blue-500 font-mono text-xl transform transition-transform duration-300">+</span>
+                        </div>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="text-gray-600 italic py-4 border-b border-gray-200 mb-4">${item.explanation}</p>
+                            ${detailsHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openModal(nodeId) {
+            const data = roadmapData[nodeId];
+            if (!data) return;
+
+            const modalHeader = `<div class="flex justify-between items-center p-5 border-b border-gray-200 shrink-0">
+                <div class="flex items-center">
+                    <span class="text-3xl mr-4">${data.icon}</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">${data.title}</h2>
+                        <p class="text-gray-500 text-sm">${data.description}</p>
+                    </div>
+                </div>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-800 text-3xl font-light">&times;</button>
+            </div>`;
+            
+            const modalBody = `<div class="p-6 overflow-y-auto bg-gray-50">
+                <div class="bg-white rounded-lg overflow-hidden border border-gray-200">${createAccordionHTML(data.content)}</div>
+            </div>`;
+
+            modalContent.innerHTML = modalHeader + modalBody;
+            modalOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('opacity-0', 'scale-95');
+
+            modalContent.querySelector('#close-modal').addEventListener('click', closeModal);
+            attachAccordionListeners();
+            initInteractiveModules();
+        }
+
+        function closeModal() {
+            modalOverlay.classList.add('opacity-0');
+            modalContent.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => modalOverlay.classList.add('pointer-events-none'), 300);
+        }
+
+        function attachAccordionListeners() {
+            modalContent.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('span');
+                    content.classList.toggle('open');
+                    icon.classList.toggle('rotate-45');
+                    icon.textContent = content.classList.contains('open') ? '−' : '+';
+                });
+            });
+        }
+
+        function initInteractiveModules() {
+            const chmodCalculator = document.getElementById('chmod-calculator');
+            if (chmodCalculator) {
+                const checkboxes = chmodCalculator.querySelectorAll('input[type="checkbox"]');
+                const output = document.getElementById('chmod-output');
+                const symbolicOutput = document.getElementById('symbolic-output');
+
+                const updatePermissions = () => {
+                    let owner = 0, group = 0, other = 0;
+                    let ownerSym = '---', groupSym = '---', otherSym = '---';
+                    
+                    checkboxes.forEach(cb => {
+                        if (cb.checked) {
+                            const val = parseInt(cb.dataset.value);
+                            switch (cb.dataset.group) {
+                                case 'owner': owner += val; break;
+                                case 'group': group += val; break;
+                                case 'other': other += val; break;
+                            }
+                        }
+                    });
+
+                    ownerSym = (owner & 4 ? 'r' : '-') + (owner & 2 ? 'w' : '-') + (owner & 1 ? 'x' : '-');
+                    groupSym = (group & 4 ? 'r' : '-') + (group & 2 ? 'w' : '-') + (group & 1 ? 'x' : '-');
+                    otherSym = (other & 4 ? 'r' : '-') + (other & 2 ? 'w' : '-') + (other & 1 ? 'x' : '-');
+
+                    output.textContent = `chmod ${owner}${group}${other}`;
+                    symbolicOutput.textContent = `${ownerSym} ${groupSym} ${otherSym}`;
+                };
+
+                checkboxes.forEach(cb => cb.addEventListener('change', updatePermissions));
+                updatePermissions(); // Initial calculation
+            }
+        }
+
+        document.querySelectorAll('.map-node').forEach(node => {
+            node.addEventListener('click', () => openModal(node.id));
+        });
+        modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+        
+        function handleResize() {
+            const isLg = window.innerWidth >= 1024;
+            const mindMapContainer = document.querySelector('.relative.w-full');
+            document.querySelector('.connectors-container').style.display = isLg ? 'block' : 'none';
+            document.querySelector('.connectors-container-mobile').style.display = isLg ? 'none' : 'block';
+            
+            if (isLg) {
+                mindMapContainer.style.height = '500px';
+                const positions = {
+                    'level-1': { top: '50%', left: '5%', transform: 'translateY(-50%)' },
+                    'level-2': { top: '50%', left: '27%', transform: 'translate(-50%, -50%)' },
+                    'level-3-red': { top: '25%', left: '55%', transform: 'translate(-50%, -50%)' },
+                    'level-3-blue': { top: '75%', left: '55%', transform: 'translate(-50%, -50%)' },
+                    'level-4': { top: '50%', right: '5%', left: 'auto', transform: 'translateY(-50%)' }
+                };
+                Object.keys(positions).forEach(id => {
+                    const node = document.getElementById(id);
+                    Object.assign(node.style, positions[id]);
+                });
+            } else {
+                const gap = 160;
+                mindMapContainer.style.height = `${(Object.keys(roadmapData).length * gap) - gap + 120}px`;
+                Object.keys(roadmapData).forEach((id, index) => {
+                    const node = document.getElementById(id);
+                    Object.assign(node.style, { top: `${index * gap}px`, left: '50%', transform: 'translateX(-50%)', right: 'auto' });
+                });
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
+        document.addEventListener('DOMContentLoaded', handleResize);
+    </script>
+</body>
+</html>
